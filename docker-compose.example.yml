@@ -1,0 +1,33 @@
+version: "3"
+services:
+    database:
+        image: mysql:5.6
+        restart: always
+        environment:
+            - MYSQL_DATABASE=logging
+            - MYSQL_ROOT_PASSWORD=CHANGE_THIS_STRING
+        networks:
+            - internal
+        volumes:
+            - database_volume:/var/lib/mysql
+
+    logging:
+        build: ./OpenLogging.Server
+        restart: always
+        environment:
+            - MYSQL_HOST=database
+            - MYSQL_USER=root
+            - MYSQL_PASSWORD=CHANGE_THIS_STRING
+            - MYSQL_DATABASE=logging
+            - NODE_ENV=production
+        networks:
+            - internal
+        depends_on:
+            - database
+
+networks:
+    internal:
+        external: false
+        
+volumes:
+    database_volume:

@@ -1,0 +1,40 @@
+{
+  "name": "openlogging.server",
+  "version": "0.0.1",
+  "description": "Logging based on a completely open system and HTTP based. No nonsense. Pure logging.",
+  "main": "./dist/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonasclaes/OpenLogging.git"
+  },
+  "keywords": [
+    "open",
+    "logging",
+    "openlogging"
+  ],
+  "author": "Jonas Claes <jonas@alterit.be>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jonasclaes/OpenLogging/issues"
+  },
+  "homepage": "https://github.com/jonasclaes/OpenLogging#readme",
+  "devDependencies": {
+    "@types/cors": "^2.8.6",
+    "@types/express": "^4.17.4",
+    "@types/morgan": "^1.9.0",
+    "@types/mysql": "^2.15.10",
+    "@types/node": "^13.11.0",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "mysql": "^2.18.1"
+  }
+}
