@@ -52,7 +52,7 @@ export class Log implements ILog {
 
     public static findAll(limit: number, offset: number): Promise<Log[]> {
         return new Promise((resolve, reject) => {
-            database.getConnection().query("SELECT * FROM `logs` LIMIT ? OFFSET ?", [limit, offset], (err, results: ILog[], fields) => {
+            database.getConnection().query("SELECT * FROM `logs` ORDER BY timestamp DESC LIMIT ? OFFSET ?", [limit, offset], (err, results: ILog[], fields) => {
                 if (err) {
                     reject(err);
                 } else {
@@ -78,9 +78,9 @@ export class Log implements ILog {
         });
     }
 
-    public static findBySourceId(source_id: string): Promise<Log[]> {
+    public static findBySourceId(source_id: string, limit: number, offset: number): Promise<Log[]> {
         return new Promise((resolve, reject) => {
-            database.getConnection().query("SELECT * FROM `logs` WHERE source_id = ?", [source_id], (err, results: ILog[], fields) => {
+            database.getConnection().query("SELECT * FROM `logs` WHERE source_id = ? ORDER BY timestamp DESC LIMIT ? OFFSET ?", [source_id, limit, offset], (err, results: ILog[], fields) => {
                 if (err) {
                     reject(err);
                 } else {
@@ -94,9 +94,25 @@ export class Log implements ILog {
         });
     }
 
-    public static findByCategory(category: string): Promise<Log[]> {
+    public static findByCategory(category: string, limit: number, offset: number): Promise<Log[]> {
         return new Promise((resolve, reject) => {
-            database.getConnection().query("SELECT * FROM `logs` WHERE category = ?", [category], (err, results: ILog[], fields) => {
+            database.getConnection().query("SELECT * FROM `logs` WHERE category = ? ORDER BY timestamp DESC LIMIT ? OFFSET ?", [category, limit, offset], (err, results: ILog[], fields) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    const returnArray: Log[] = [];
+                    results.forEach(element => {
+                        returnArray.push(new Log(element));
+                    });
+                    resolve(returnArray);
+                }
+            });
+        });
+    }
+
+    public static findBySourceIdAndCategory(source_id: string, category: string, limit: number, offset: number): Promise<Log[]> {
+        return new Promise((resolve, reject) => {
+            database.getConnection().query("SELECT * FROM `logs` WHERE source_id = ? AND category = ? ORDER BY timestamp DESC LIMIT ? OFFSET ?", [source_id, category, limit, offset], (err, results: ILog[], fields) => {
                 if (err) {
                     reject(err);
                 } else {

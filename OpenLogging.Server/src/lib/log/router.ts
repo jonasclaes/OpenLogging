@@ -7,9 +7,19 @@ router.get("/", async (req, res) => {
     const limit = <string> req.query.limit;
     const offset = <string> req.query.offset;
 
-    const logs = await Log.findAll(parseInt(limit || "100"), parseInt(offset || "0"));
-
-    res.json(logs);
+    if (req.query.source_id && req.query.category) {
+        const logs = await Log.findBySourceIdAndCategory(req.query.source_id, req.query.category, parseInt(limit || "100"), parseInt(offset || "0"));
+        res.json(logs);
+    } else if (req.query.source_id) {
+        const logs = await Log.findBySourceId(req.query.source_id, parseInt(limit || "100"), parseInt(offset || "0"));
+        res.json(logs);
+    } else if (req.query.category) {
+        const logs = await Log.findByCategory(req.query.category, parseInt(limit || "100"), parseInt(offset || "0"));
+        res.json(logs);
+    } else {
+        const logs = await Log.findAll(parseInt(limit || "100"), parseInt(offset || "0"));
+        res.json(logs);
+    }
 });
 
 router.post("/", async (req, res) => {
